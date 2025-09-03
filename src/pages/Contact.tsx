@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle, Brain } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,9 @@ export default function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const mapsUrl =
+    'https://www.google.com/maps/place/502+W+7th+St+STE+100,+Erie,+PA+16502';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,15 +60,19 @@ Submitted via InflecIQ Contact Form
 Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
 
       // Create mailto link
-      const subject = `New Project Inquiry from ${formData.name}${formData.company ? ` (${formData.company})` : ''}`;
-      const mailtoLink = `mailto:hr@infleciq.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-      
+      const subject = `New Project Inquiry from ${formData.name}${
+        formData.company ? ` (${formData.company})` : ''
+      }`;
+      const mailtoLink = `mailto:hr@infleciq.org?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(emailBody)}`;
+
       // Open email client
-      window.open(mailtoLink, '_blank');
+      window.open(mailtoLink, '_blank', 'noopener,noreferrer');
 
       console.log('Form submitted:', formData);
       setIsSubmitted(true);
-      
+
       // Reset form
       setFormData({
         name: '',
@@ -76,7 +83,6 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
       });
 
       setTimeout(() => setIsSubmitted(false), 5000);
-
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please email hr@infleciq.org directly.');
@@ -85,7 +91,11 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -104,8 +114,8 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
           >
             <h1 className="text-5xl lg:text-6xl font-bold mb-6">Get In Touch</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              Ready to transform your business with cutting-edge IT solutions? 
-              Let's discuss your project and create something amazing together.
+              Ready to transform your business with modern IT solutions?
+              Let&apos;s discuss your project and create something amazing together.
             </p>
           </motion.div>
         </div>
@@ -123,7 +133,7 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
               className="bg-white rounded-2xl shadow-lg p-8"
             >
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-              
+
               {isSubmitted && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -132,8 +142,10 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
                 >
                   <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
                   <div>
-                    <span className="text-green-800 font-semibold">Message sent successfully!</span>
-                    <p className="text-sm text-green-700">Your email client should have opened. Please send the pre-filled email to complete your submission.</p>
+                    <span className="text-green-800 font-semibold">Message prepared!</span>
+                    <p className="text-sm text-green-700">
+                      Your email client should have opened. Send the pre-filled email to complete your submission.
+                    </p>
                   </div>
                 </motion.div>
               )}
@@ -222,7 +234,7 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
                     placeholder="Tell us about your project requirements, timeline, and budget..."
-                  ></textarea>
+                  />
                 </div>
 
                 <motion.button
@@ -234,9 +246,18 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       Opening Email...
                     </>
@@ -264,41 +285,48 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
                     <Phone className="h-6 w-6 text-blue-600 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Phone</h4>
-                      <p className="text-gray-600">+1 (202) 743-4091</p>
-                      <p className="text-sm text-gray-500">Mon-Fri 9AM-5PM EST</p>
+                      <a href="tel:+12027434091" className="text-gray-600 hover:underline">
+                        +1 (202) 743-4091
+                      </a>
+                      <p className="text-sm text-gray-500">Mon–Fri 9AM–5PM EST</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <Mail className="h-6 w-6 text-blue-600 mt-1" />
                     <div>
-                     <h4 className="font-semibold text-gray-900">Email</h4>
-<a href="mailto:hr@infleciq.org" className="text-gray-600 hover:underline">
-  hr@infleciq.org
-</a>
-<p className="text-sm text-gray-500">We respond within 24 hours</p>
-
+                      <h4 className="font-semibold text-gray-900">Email</h4>
+                      <a href="mailto:hr@infleciq.org" className="text-gray-600 hover:underline">
+                        hr@infleciq.org
+                      </a>
+                      <p className="text-sm text-gray-500">We respond within 24 hours</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <MapPin className="h-6 w-6 text-blue-600 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Office</h4>
-                      <p className="text-gray-600">8 The Green #8931<br />Dover, DE 19901<br />United States</p>
+                      <p className="text-gray-600">
+                        502 W 7th St STE 100
+                        <br />
+                        Erie, PA 16502
+                        <br />
+                        United States
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <Clock className="h-6 w-6 text-blue-600 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Business Hours</h4>
-                      <p className="text-gray-600">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                      <p className="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
+                      <p className="text-gray-600">Monday – Friday: 9:00 AM – 6:00 PM</p>
+                      <p className="text-gray-600">Saturday: 10:00 AM – 4:00 PM</p>
                       <p className="text-gray-600">Sunday: Closed</p>
                     </div>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Map */}
+              {/* Map (click to open) */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -307,16 +335,39 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
               >
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Find Us</h3>
                 <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.4!2d-75.5277!3d39.1612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c7b8f8f8f8f8f8%3A0x1234567890abcdef!2s8%20The%20Green%2C%20Dover%2C%20DE%2019901%2C%20USA!5e0!3m2!1sen!2sus!4v1234567890123"
-                    width="100%"
-                    height="300"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="InflecIQ Office Location"
-                  ></iframe>
+                  <div
+                    className="relative w-full h-80 bg-gradient-to-br from-blue-100 to-teal-100 cursor-pointer hover:shadow-lg transition-shadow rounded-lg"
+                    role="link"
+                    tabIndex={0}
+                    aria-label="Open InflecIQ office location in Google Maps"
+                    onClick={() => window.open(mapsUrl, '_blank', 'noopener,noreferrer')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+                      }
+                    }}
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center p-8">
+                        <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                          <MapPin className="w-8 h-8 text-white" />
+                        </div>
+                        <h4 className="text-2xl font-bold text-gray-900 mb-2">InflecIQ Office</h4>
+                        <p className="text-gray-700 mb-1 font-medium">502 W 7th St STE 100</p>
+                        <p className="text-gray-700 mb-4">Erie, Pennsylvania 16502</p>
+                        <p className="text-sm text-gray-600 mb-4">Click to view in Google Maps</p>
+                        <div className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                          Open Map
+                        </div>
+                      </div>
+                    </div>
+                    {/* Decorative elements */}
+                    <div className="absolute top-4 left-4 w-2 h-2 bg-blue-400 rounded-full opacity-60" />
+                    <div className="absolute top-8 right-6 w-1 h-1 bg-teal-400 rounded-full opacity-80" />
+                    <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-50" />
+                    <div className="absolute bottom-4 right-4 w-2 h-2 bg-teal-500 rounded-full opacity-70" />
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -341,19 +392,23 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
             {[
               {
                 question: "What's your typical project timeline?",
-                answer: "Project timelines vary based on complexity. Simple websites take 1-2 weeks, while complex web applications may take 2-6 months. We provide detailed timelines during our initial consultation."
+                answer:
+                  'Project timelines vary based on complexity. Simple websites take 1–2 weeks, while complex web apps may take 2–6 months. We provide detailed timelines during our initial consultation.'
               },
               {
-                question: "Do you provide ongoing support and maintenance?",
-                answer: "Yes, we offer comprehensive support packages including bug fixes, updates, security patches, and feature enhancements to keep your solution running smoothly."
+                question: 'Do you provide ongoing support and maintenance?',
+                answer:
+                  'Yes, we offer comprehensive support packages including bug fixes, updates, security patches, and feature enhancements to keep your solution running smoothly.'
               },
               {
-                question: "What technologies do you specialize in?",
-                answer: "We work with modern technologies including React, Next.js, Node.js, Python, TypeScript, and various databases. We choose the best tech stack for each project."
+                question: 'What technologies do you specialize in?',
+                answer:
+                  'We work with modern technologies including React, Next.js, Node.js, Python, TypeScript, and various databases. We choose the best stack for each project.'
               },
               {
-                question: "Are you E-Verified for hiring international talent?",
-                answer: "Yes, InflecIQ is officially E-Verified and authorized to hire OPT, STEM OPT professionals in the United States."
+                question: 'Are you E-Verified for hiring international talent?',
+                answer:
+                  'Yes, InflecIQ is officially E-Verified and authorized to hire OPT, STEM OPT professionals in the United States.'
               }
             ].map((faq, index) => (
               <motion.div

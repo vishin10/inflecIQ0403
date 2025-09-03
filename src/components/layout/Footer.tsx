@@ -19,8 +19,8 @@ export default function Footer() {
               Your trusted partner for digital transformation.
             </p>
             <div className="text-sm text-gray-400 mb-4">
-              <p>8 The Green #8931</p>
-              <p>Dover, DE 19901, United States</p>
+              <p>502 W 7th St #100</p>
+              <p>Erie, PA 16502 United States</p>
               <p className="mt-2 text-green-400">✅ E-Verified Company</p>
             </div>
             <div className="flex space-x-4">
@@ -68,7 +68,7 @@ export default function Footer() {
 
   <p className="flex items-center">
     <MapPin className="h-5 w-5 mr-3 text-blue-400" />
-    Dover, DE 19901
+   Erie PA 16502
   </p>
 </div>
 

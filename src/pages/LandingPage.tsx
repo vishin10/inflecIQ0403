@@ -1,14 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Globe, 
-  Smartphone, 
-  Brain, 
-  BarChart3, 
-  Users, 
-  Target, 
-  Zap, 
+import {
+  Globe,
+  Smartphone,
+  Brain,
+  BarChart3,
   Shield,
   CheckCircle,
   ArrowRight,
@@ -16,8 +12,6 @@ import {
   Phone,
   MapPin
 } from 'lucide-react';
-import { useState } from 'react';
-import Footer from '../components/layout/Footer';
 
 export default function LandingPage() {
   const services = [
@@ -29,7 +23,7 @@ export default function LandingPage() {
     },
     {
       icon: <Smartphone className="h-12 w-12 text-teal-600" />,
-      title: "App Development", 
+      title: "App Development",
       description: "Native and cross-platform mobile and web applications that deliver exceptional user experiences.",
       image: "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg"
     },
@@ -47,38 +41,32 @@ export default function LandingPage() {
     }
   ];
 
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const [formData, setFormData] = useState({
-  name: '',
-  email: '',
-  message: ''
-});
-const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      if (!formData.name || !formData.email || !formData.message) {
+        alert('Please fill in all required fields');
+        setIsSubmitting(false);
+        return;
+      }
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value } = e.target;
-  setFormData(prev => ({
-    ...prev,
-    [name]: value
-  }));
-};
-
-
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  try {
-    // Validate form data
-    if (!formData.name || !formData.email || !formData.message) {
-      alert('Please fill in all required fields');
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Create email content
-    const emailBody = `New Contact Form Submission:
+      const emailBody = `New Contact Form Submission:
 
 Name: ${formData.name}
 Email: ${formData.email}
@@ -89,59 +77,49 @@ ${formData.message}
 ---
 Sent from Contact Form`;
 
-    // Create mailto link
-    const subject = `New Contact Form Submission from ${formData.name}`;
-    const mailtoLink = `mailto:hr@infleciq.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open email client
-    window.open(mailtoLink, '_blank');
+      const subject = `New Contact Form Submission from ${formData.name}`;
+      const mailtoLink = `mailto:hr@infleciq.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
 
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
-    alert('Your email client should open with a pre-filled message to hr@infleciq.org');
+      window.open(mailtoLink, '_blank', 'noopener,noreferrer');
 
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error submitting form. Please email hr@infleciq.org directly.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+      setFormData({ name: '', email: '', message: '' });
+      alert('Your email client should open with a pre-filled message to hr@infleciq.org');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error submitting form. Please email hr@infleciq.org directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const whyChooseUs = [
     "Experienced Full-Stack Team",
-    "Data-Driven Decision Making", 
+    "Data-Driven Decision Making",
     "Agile and Scalable Development",
     "E-Verified Company ✅",
     "Trusted by International Clients"
   ];
+
+  const mapsUrl = 'https://www.google.com/maps/place/502+W+7th+St+STE+100,+Erie,+PA+16502';
 
   return (
     <div className="min-h-screen">
       {/* Header */}
       <header className="relative z-10 px-6 py-4 bg-white shadow-sm">
         <nav className="max-w-7xl mx-auto flex items-center justify-between">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-2"
           >
-            {/* <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl flex items-center justify-center">
-              <Brain className="h-6 w-6 text-white" />
-            </div> */}
-            {/* <span className="text-xl font-bold text-gray-900">
-              InflecIQ
-            </span> */}
+            {/* Add your logo/title here if needed */}
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="hidden md:flex items-center space-x-6"
           >
-            {/* <a href="#services" className="text-gray-600 hover:text-blue-600 transition-colors">Services</a>
-            <a href="#about" className="text-gray-600 hover:text-blue-600 transition-colors">About</a>
-            <a href="#contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a> */}
-            <a 
+            <a
               href="#contact"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
@@ -166,12 +144,12 @@ Sent from Contact Form`;
                   {" "}Tech, Data & AI
                 </span>
               </h1>
-              
+
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                We build scalable digital solutions to fuel your business growth. 
+                We build scalable digital solutions to fuel your business growth.
                 From custom websites to AI-powered applications, we transform your ideas into reality.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <a
                   href="#contact"
@@ -187,7 +165,7 @@ Sent from Contact Form`;
                   View Our Services
                 </a>
               </div>
-              
+
               <div className="flex items-center space-x-2 text-sm text-green-600 bg-green-50 px-4 py-2 rounded-lg inline-flex">
                 <Shield className="h-4 w-4" />
                 <span className="font-medium">E-Verified Company</span>
@@ -204,43 +182,22 @@ Sent from Contact Form`;
               <div className="relative w-full h-96 flex items-center justify-center">
                 {/* Main Tech Circle */}
                 <motion.div
-                  animate={{ 
-                    rotate: 360
-                  }}
-                  transition={{ 
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute w-64 h-64 border-4 border-blue-200 rounded-full"
                 />
-                
                 {/* Center Logo */}
                 <motion.div
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                   className="w-32 h-32 bg-gradient-to-r from-blue-600 to-teal-600 rounded-full flex items-center justify-center shadow-2xl z-10"
                 >
                   <Brain className="h-16 w-16 text-white" />
                 </motion.div>
-
                 {/* Floating Service Icons */}
                 <motion.div
-                  animate={{ 
-                    y: [0, -20, 0],
-                    rotate: [0, 10, 0]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    delay: 0
-                  }}
+                  animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, delay: 0 }}
                   className="absolute top-8 right-8"
                 >
                   <div className="w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center">
@@ -249,15 +206,8 @@ Sent from Contact Form`;
                 </motion.div>
 
                 <motion.div
-                  animate={{ 
-                    y: [0, 15, 0],
-                    rotate: [0, -10, 0]
-                  }}
-                  transition={{ 
-                    duration: 3.5,
-                    repeat: Infinity,
-                    delay: 1
-                  }}
+                  animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }}
+                  transition={{ duration: 3.5, repeat: Infinity, delay: 1 }}
                   className="absolute bottom-8 left-8"
                 >
                   <div className="w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center">
@@ -266,15 +216,8 @@ Sent from Contact Form`;
                 </motion.div>
 
                 <motion.div
-                  animate={{ 
-                    y: [0, -15, 0],
-                    x: [0, 10, 0]
-                  }}
-                  transition={{ 
-                    duration: 4.5,
-                    repeat: Infinity,
-                    delay: 0.5
-                  }}
+                  animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
+                  transition={{ duration: 4.5, repeat: Infinity, delay: 0.5 }}
                   className="absolute top-8 left-8"
                 >
                   <div className="w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center">
@@ -283,15 +226,8 @@ Sent from Contact Form`;
                 </motion.div>
 
                 <motion.div
-                  animate={{ 
-                    y: [0, 20, 0],
-                    x: [0, -10, 0]
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: 1.5
-                  }}
+                  animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                   className="absolute bottom-8 right-8"
                 >
                   <div className="w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center">
@@ -313,9 +249,7 @@ Sent from Contact Form`;
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              What We Do
-            </h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">What We Do</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We deliver comprehensive technology solutions that drive innovation and growth
             </p>
@@ -336,8 +270,8 @@ Sent from Contact Form`;
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.description}</p>
                 <div className="w-full h-32 rounded-lg overflow-hidden">
-                  <img 
-                    src={service.image} 
+                  <img
+                    src={service.image}
                     alt={service.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -401,7 +335,7 @@ Sent from Contact Form`;
             className="text-center mb-12"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Find Us</h2>
-            <p className="text-xl text-gray-600">Visit our headquarters in Dover, Delaware</p>
+            <p className="text-xl text-gray-600">Visit our headquarters in Erie, Pennsylvania</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -417,23 +351,30 @@ Sent from Contact Form`;
                   <MapPin className="h-6 w-6 text-blue-600 mt-1" />
                   <div>
                     <p className="font-semibold text-gray-900">Address</p>
-                    <p className="text-gray-600">8 The Green #8931<br />Dover, DE 19901<br />United States</p>
+                    <p className="text-gray-600">
+                      502 W 7th St STE 100<br />
+                      Erie, Pennsylvania 16502<br />
+                      United States
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="h-6 w-6 text-blue-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Phone</p>
-                    <p className="text-gray-600">+1 (202) 743-4091</p>
+                    <a href="tel:+12027434091" className="text-gray-600 hover:underline">
+                      +1 (202) 743-4091
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="h-6 w-6 text-blue-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Email</p>
-<a href="mailto:hr@infleciq.org" className="text-gray-600 hover:underline">
-  hr@infleciq.org
-</a>                  </div>
+                    <a href="mailto:hr@infleciq.org" className="text-gray-600 hover:underline">
+                      hr@infleciq.org
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -444,16 +385,39 @@ Sent from Contact Form`;
               transition={{ duration: 0.8 }}
               className="h-96 rounded-2xl overflow-hidden shadow-xl"
             >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.4!2d-75.5277!3d39.1612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c7b8f8f8f8f8f8%3A0x1234567890abcdef!2s8%20The%20Green%2C%20Dover%2C%20DE%2019901%2C%20USA!5e0!3m2!1sen!2sus!4v1234567890123"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="InflecIQ Location"
-              ></iframe>
+              <div
+                className="relative w-full h-full bg-gradient-to-br from-blue-100 to-teal-100 cursor-pointer hover:shadow-lg transition-shadow rounded-2xl"
+                role="link"
+                tabIndex={0}
+                aria-label="Open InflecIQ office location in Google Maps"
+                onClick={() => window.open(mapsUrl, '_blank', 'noopener,noreferrer')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <MapPin className="w-8 h-8 text-white" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-gray-900 mb-2">InflecIQ Office</h4>
+                    <p className="text-gray-700 mb-1 font-medium">502 W 7th St STE 100</p>
+                    <p className="text-gray-700 mb-4">Erie, Pennsylvania 16502</p>
+                    <p className="text-sm text-gray-600 mb-4">Click to view in Google Maps</p>
+                    <div className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                      Open Map
+                    </div>
+                  </div>
+                </div>
+                {/* Decorative elements */}
+                <div className="absolute top-4 left-4 w-2 h-2 bg-blue-400 rounded-full opacity-60"></div>
+                <div className="absolute top-8 right-6 w-1 h-1 bg-teal-400 rounded-full opacity-80"></div>
+                <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-50"></div>
+                <div className="absolute bottom-4 right-4 w-2 h-2 bg-teal-500 rounded-full opacity-70"></div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -469,14 +433,14 @@ Sent from Contact Form`;
           >
             <h2 className="text-4xl font-bold text-white mb-6">About InflecIQ</h2>
             <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              At InflecIQ, we are passionate about transforming businesses through innovative technology solutions. 
-              Our experienced team of developers, data scientists, and AI specialists work collaboratively to deliver 
+              At InflecIQ, we are passionate about transforming businesses through innovative technology solutions.
+              Our experienced team of developers, data scientists, and AI specialists work collaboratively to deliver
               scalable, cutting-edge solutions that drive growth and efficiency.
             </p>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <p className="text-blue-100 text-lg">
-                <strong className="text-white">InflecIQ is officially E-Verified</strong> and authorized to hire 
-                OPT, STEM OPT professionals in the United States. We welcome talented international professionals 
+                <strong className="text-white">InflecIQ is officially E-Verified</strong> and authorized to hire
+                OPT, STEM OPT professionals in the United States. We welcome talented international professionals
                 to join our innovative team.
               </p>
             </div>
@@ -485,86 +449,83 @@ Sent from Contact Form`;
       </section>
 
       {/* Contact Form */}
-     <section id="contact" className="px-6 py-20 bg-white">
-  <div className="max-w-4xl mx-auto">
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="text-center mb-12"
-    >
-      <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-      <p className="text-xl text-gray-600">Need a custom solution? Contact us below.</p>
-    </motion.div>
+      <section id="contact" className="px-6 py-20 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+            <p className="text-xl text-gray-600">Need a custom solution? Contact us below.</p>
+          </motion.div>
 
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className="bg-gray-50 p-8 rounded-2xl shadow-lg"
-    >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Your full name"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="your@email.com"
-            />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="bg-gray-50 p-8 rounded-2xl shadow-lg"
+          >
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Your full name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Tell us about your project..."
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-teal-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {isSubmitting ? 'Opening Email...' : 'Send Message'}
+              </button>
+            </form>
+          </motion.div>
         </div>
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={6}
-            value={formData.message}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Tell us about your project..."
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-600 to-teal-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-        >
-          {isSubmitting ? 'Opening Email...' : 'Send Message'}
-        </button>
-      </form>
-    </motion.div>
-  </div>
-</section>
-
-      {/* Footer */}
-     
+      </section>
     </div>
   );
 }
