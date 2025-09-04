@@ -1,13 +1,13 @@
 {
   "name": "infleciq-api",
-  "type": "module",
-  "private": true,
   "version": "1.0.0",
-  "main": "index.js",
-  "description": "",
+  "private": true,
+  "type": "module",
+  "main": "server/index.js",
+  "description": "InflecIQ API server",
   "scripts": {
-    "dev": "node --watch index.js",
-    "start": "node index.js"
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js"
   },
   "dependencies": {
     "concurrently": "^9.2.1",
