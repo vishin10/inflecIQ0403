@@ -155,7 +155,7 @@ export default function About() {
                   'Client-focused approach',
                   'Cutting-edge technology',
                   'Measurable business impact',
-                  'E-Verified and OPT,STEM OPT friendly'
+                  
                 ].map((item, index) => (
                   <div key={index} className="flex items-center">
                     <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
@@ -282,8 +282,7 @@ export default function About() {
             </div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">E-Verified Company</h2>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              <strong>InflecIQ is officially E-Verified</strong> and authorized to hire 
-              OPT ,STEM OPT professionals in the United States. We welcome talented international 
+              <strong>InflecIQ is officially E-Verified</strong> We welcome talented 
               professionals to join our innovative team and contribute to cutting-edge technology projects.
             </p>
             <div className="bg-white p-6 rounded-2xl shadow-lg inline-block">
@@ -291,7 +290,6 @@ export default function About() {
                 <CheckCircle className="h-8 w-8 text-green-600" />
                 <div className="text-left">
                   <div className="font-semibold text-gray-900">E-Verify Compliant</div>
-                  <div className="text-sm text-gray-600">Authorized to hire STEM OPT professionals</div>
                 </div>
               </div>
             </div>

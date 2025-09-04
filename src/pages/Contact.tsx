@@ -408,7 +408,7 @@ Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
               {
                 question: 'Are you E-Verified for hiring international talent?',
                 answer:
-                  'Yes, InflecIQ is officially E-Verified and authorized to hire OPT, STEM OPT professionals in the United States.'
+                  'Yes, InflecIQ is officially E-Verified.'
               }
             ].map((faq, index) => (
               <motion.div

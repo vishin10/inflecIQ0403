@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   Globe,
@@ -10,7 +10,8 @@ import {
   ArrowRight,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  Quote
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -40,6 +41,34 @@ export default function LandingPage() {
       image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg"
     }
   ];
+
+  // --- NEW: daily quotes (add/curate as you like) ---
+  const quotes: Array<{ text: string; author: string }> = [
+    { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
+    { text: "It always seems impossible until it’s done.", author: "Nelson Mandela" },
+    { text: "Opportunities don’t happen. You create them.", author: "Chris Grosser" },
+    { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+    { text: "Don’t watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+    { text: "If you’re going through hell, keep going.", author: "Winston Churchill" },
+    { text: "Do one thing every day that scares you.", author: "Eleanor Roosevelt" },
+    { text: "What you do today can improve all your tomorrows.", author: "Ralph Marston" },
+    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+    { text: "Dream big and dare to fail.", author: "Norman Vaughan" },
+    { text: "Action is the foundational key to all success.", author: "Pablo Picasso" },
+  ];
+
+  // Deterministic pick for the current calendar day (local time)
+  const dailyQuote = useMemo(() => {
+    const todayKey = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    // Simple stable hash
+    let hash = 0;
+    for (let i = 0; i < todayKey.length; i++) {
+      hash = (hash * 31 + todayKey.charCodeAt(i)) >>> 0;
+    }
+    const idx = hash % quotes.length;
+    return quotes[idx];
+  }, [quotes]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -180,13 +209,11 @@ Sent from Contact Form`;
               className="relative"
             >
               <div className="relative w-full h-96 flex items-center justify-center">
-                {/* Main Tech Circle */}
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute w-64 h-64 border-4 border-blue-200 rounded-full"
                 />
-                {/* Center Logo */}
                 <motion.div
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -194,7 +221,6 @@ Sent from Contact Form`;
                 >
                   <Brain className="h-16 w-16 text-white" />
                 </motion.div>
-                {/* Floating Service Icons */}
                 <motion.div
                   animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
                   transition={{ duration: 4, repeat: Infinity, delay: 0 }}
@@ -204,7 +230,6 @@ Sent from Contact Form`;
                     <Globe className="h-8 w-8 text-blue-600" />
                   </div>
                 </motion.div>
-
                 <motion.div
                   animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, delay: 1 }}
@@ -214,7 +239,6 @@ Sent from Contact Form`;
                     <Smartphone className="h-8 w-8 text-teal-600" />
                   </div>
                 </motion.div>
-
                 <motion.div
                   animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
                   transition={{ duration: 4.5, repeat: Infinity, delay: 0.5 }}
@@ -224,7 +248,6 @@ Sent from Contact Form`;
                     <BarChart3 className="h-8 w-8 text-green-600" />
                   </div>
                 </motion.div>
-
                 <motion.div
                   animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
@@ -239,6 +262,9 @@ Sent from Contact Form`;
           </div>
         </div>
       </section>
+
+      {/* --- NEW: Daily Success Quote --- */}
+     
 
       {/* What We Do Section */}
       <section id="services" className="px-6 py-20 bg-white">
@@ -279,6 +305,34 @@ Sent from Contact Form`;
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+
+       <section aria-labelledby="daily-quote" className="px-6 py-12 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-blue-50 via-white to-teal-50 border border-gray-100 rounded-2xl p-8 shadow-sm"
+          >
+            <div className="flex items-start gap-4">
+              <div className="shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-md">
+                  <Quote className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 id="daily-quote" className="text-sm font-semibold tracking-wide text-blue-700 uppercase mb-2">
+                </h3>
+                <p className="text-xl md:text-2xl text-gray-900 font-semibold leading-relaxed">
+                  “{dailyQuote.text}”
+                </p>
+                <p className="mt-3 text-gray-600">— {dailyQuote.author}</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -439,8 +493,7 @@ Sent from Contact Form`;
             </p>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <p className="text-blue-100 text-lg">
-                <strong className="text-white">InflecIQ is officially E-Verified</strong> and authorized to hire
-                OPT, STEM OPT professionals in the United States. We welcome talented international professionals
+                <strong className="text-white">InflecIQ is officially E-Verified</strong> We welcome talented professionals
                 to join our innovative team.
               </p>
             </div>
